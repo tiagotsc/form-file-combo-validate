@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="utf-8"/>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+	<title>Formulário com validação de campos e files e combo autocomplete</title>
+	<link href="js/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/customizado.css" rel="stylesheet"/>
+    <link href="js/select2/css/select2.min.css" rel="stylesheet"/>
+    <link href="js/select2/css/select2_bootstrap.css" rel="stylesheet"/>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/select2/js/select2.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalDefault">
+              Abre modal
+            </button>
+        </div>
+    </div>
+    <div class="modal" id="modalDefault" tabindex="-1" role="dialog" aria-hidden="true">
+        <div id="modalFullDefault" class="modal-dialog modal-full" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="modal_titulo_default" class="modal-title">Formulário com validação de campos e files e combo autocomplete</h5>
+                    <button type="button" id="modal_default_close" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div id="modal_conteudo_default" class="modal-body p-4">
+                    <form id="frm" method="post" action="demanda/dilatarsalvar" enctype="multipart/form-data">
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                              <label for="NUMERO_SGD">Número SGD</label>
+                              <input type="text" class="form-control" id="NUMERO_SGD" name="NUMERO_SGD" value="">
+                            </div>
+                            <div class="form-group col-md-2">
+                              <label for="TITULO">Demandante</label>
+                              <input type="text" class="form-control" id="TITULO" value="">
+                            </div>
+                            <div class="form-group col-md-2">
+                              <label for="DOCUMENTO">Documento</label>
+                              <input type="text" class="form-control" id="DOCUMENTO" value="">
+                            </div>
+                            <div class="form-group col-md-3">
+                              <label for="PRAZO">Prazo</label>
+                              <input type="text" class="form-control" id="PRAZO" readonly value="">
+                            </div>
+                            <div class="form-group col-md-2">
+                              <label for="COMBO">Nomes</label>
+                              <select id="COMBO" name="COMBO" class="form-control">
+                                <option value="">Selecione...</option>
+                                <option value="1">Paulo Roberto</option>
+                                <option value="2">Diego Queiroz</option>
+                                <option value="3">Carlos Faria</option>
+                                <option value="4">Roberta Miranda</option>
+                                <option value="5">Cristiano Gomes</option>
+                                <option value="6">Gabriela Numes</option>
+                                <option value="7">Ricardo Peixoto</option>
+                              </select>
+                            </div>
+                        </div>
+                        <div id="arquivos" class="form-row">
+                            <div class="col-md-2">
+                                <a id="add_file" href="#">Add arquivo</a>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                              <label for="MOTIVO">Motivo</label>
+                              <textarea class="form-control" rows="5" id="MOTIVO" name="MOTIVO" maxlength="1000"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12 text-right">
+                                <input id="salvar" type="button" class="btn btn-primary" value="Salvar" />
+                            </div>
+                        </div>
+                    </form>                    
+                </div>
+                <!--<div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                </div>-->
+            </div>
+        </div>
+    </div>
+    <!--
+    <div class="container">
+        <form id="frm-dilatar" method="post" action="<?= $_SERVER['SCRIPT_NAME'];?>/demanda/dilatarsalvar">
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                  <label for="NUMERO_SGD">Número SGD</label>
+                  <input type="text" class="form-control" id="NUMERO_SGD" name="NUMERO_SGD" readonly value="">
+                  <input type="hidden" id="DEMANDA_ID" name="DEMANDA_ID" value="<?=$this->ID?>" />
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="TITULO">Demandante</label>
+                  <input type="text" class="form-control" readonly id="TITULO" value="">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="DOCUMENTO">Documento</label>
+                  <input type="text" class="form-control" readonly id="DOCUMENTO" value="">
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="PRAZO">Prazo</label>
+                  <input type="text" class="form-control" readonly id="PRAZO" readonly value="">
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="DATA_ANTERIOR">Prazo considerado</label>
+                  <input type="text" class="form-control" readonly id="DATA_ANTERIOR" name="DATA_ANTERIOR" readonly value="">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="DATA_ULTIMA">Última dilação</label>
+                  <input type="text" class="form-control" readonly id="DATA_ULTIMA"  readonly value="">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="COMBO">Nomes</label>
+                  <select id="COMBO" name="COMBO" class="form-control">
+                    <option value="">Selecione...</option>
+                    <option value="1">Paulo Roberto</option>
+                    <option value="2">Diego Queiroz</option>
+                    <option value="3">Carlos Faria</option>
+                    <option value="4">Roberta Miranda</option>
+                    <option value="5">Cristiano Gomes</option>
+                    <option value="6">Gabriela Numes</option>
+                    <option value="7">Ricardo Peixoto</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-12">
+                  <label for="MOTIVO">Motivo</label>
+                  <textarea class="form-control" rows="5" id="MOTIVO" name="MOTIVO" maxlength="1000"></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12 text-right">
+                    <input id="salvar" type="button" class="btn btn-primary" value="Salvar" />
+                </div>
+            </div>
+        </form>
+    </div>
+    -->
+    <script>
+        /*var url = "<?=ROOT_PATH?>/js/base.js";
+        $.getScript(url);
+        var url = "<?=ROOT_PATH?>/js/demanda/dilatar.js";
+        $.getScript(url);*/
+        // Cria combo autocomplete
+        $('#COMBO').select2({
+          placeholder: 'Selecione uma opção',
+          dropdownParent: $('#modalDefault') // Coloca combo autocomplete por cima do elemento informado
+        }).on("select2:select", function(e) {// Change
+        //alert(e.params.data.id); // Id
+        //$("#NOME").val(e.params.data.text);
+        $('#frm').valid()
+        });
+        
+        $("#add_file").on("click", function(event){
+            event.preventDefault();
+            //if($(".upload").length <= 2){
+                var contAnexo = $('[name*="anexo"]').length;
+                var campo = '<div class="form-group col-md-4">';
+                    campo += '<label><b>Limite máximo: 40MB</b>';
+                    campo += '<input class="form-control upload" type="file" name="anexo['+contAnexo+']" id="anexo['+contAnexo+']">';
+                    campo += '</label>';
+                    campo += '<a class="removeFile" href="#">X</a>';
+                    campo += '</div>';
+                $("#arquivos").append(campo);
+                $(".removeFile").on("click", function(event){
+                    event.preventDefault();
+                    $(this).parent().remove();
+                    $("#add_file").show();
+                });
+                $('[name*="anexo"]').each(function () {
+                    $( this ).rules( "add", {
+                      required: true,
+                      filesize: 41943040,
+                      messages: {
+                        required: "Selecione o arquivo.",
+                        filesize: "Arquivo grande demais"
+                      }
+                    });
+                });
+                $(".upload").on('change', function(){
+                    $('#frm').valid();
+                });
+            //}else{
+                //$(this).hide();
+            //}
+        });
+        
+        $.validator.addMethod('filesize', function (value, element, param) {
+            return this.optional(element) || (element.files[0].size <= param)
+        }, 'Arquivo grande demais, esta acima de 40 MB');
+            
+        $("#frm").validate({
+            debug: false,
+            errorClass: 'error',
+            errorElement: 'p',
+            errorPlacement: function(error, element) {
+              element.parents('.form-group').append(error);
+              var msg = $(element).next('.help-block').text();
+              $(element).attr('aria-label', msg );
+            },
+            highlight: function(element, errorClass){
+              $(element)
+              .attr('aria-invalid', true)
+              .parents('.form-group')
+              .addClass('has-error');
+            },
+            unhighlight: function(element, errorClass){
+              $(element).removeAttr('aria-invalid')
+              .removeAttr('aria-label')
+              .parents('.form-group').removeClass('has-error');
+            },
+            rules: {
+                NUMERO_SGD: {
+                    required: true
+                },
+                COMBO: {
+                    required: true
+                }
+            },
+            messages: {
+                NUMERO_SGD: {
+                    required: "Informe o número"
+                },
+                COMBO: {
+                    required: "Selecione o nome"
+                }
+            }
+        });
+        
+        $("#salvar").on("click", function(){
+            if($("#frm").valid()){
+                $("#salvar").prop('disabled', true).val('AGUARDE...');
+                $('#frm').submit();
+            }
+        });
+    </script>
+</body>
+
+</html>
